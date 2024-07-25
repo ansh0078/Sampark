@@ -16,7 +16,7 @@ class NewGroup extends StatelessWidget {
     GroupController groupController = Get.put(GroupController());
     return Scaffold(
         appBar: AppBar(
-          title: Text("New Group"),
+          title: const Text("New Group"),
         ),
         floatingActionButton: Obx(
           () => FloatingActionButton(
@@ -48,7 +48,7 @@ class NewGroup extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Expanded(
                 child: StreamBuilder(
                     stream: contactController.getContact(),

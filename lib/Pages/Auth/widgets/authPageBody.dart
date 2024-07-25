@@ -35,10 +35,13 @@ class AuthPageBody extends StatelessWidget {
                         width: MediaQuery.sizeOf(context).width / 2.6,
                         child: Column(
                           children: [
-                            Text("Login", style: isLogin.value ? Theme.of(context).textTheme.bodyLarge : Theme.of(context).textTheme.labelLarge),
+                            Text(
+                              "Login",
+                              style: isLogin.value ? Theme.of(context).textTheme.bodyLarge : Theme.of(context).textTheme.labelLarge,
+                            ),
                             const SizedBox(height: 5),
                             AnimatedContainer(
-                              duration: Duration(microseconds: 200),
+                              duration: const Duration(microseconds: 200),
                               width: isLogin.value ? 100 : 0,
                               height: 3,
                               decoration: BoxDecoration(
@@ -78,7 +81,7 @@ class AuthPageBody extends StatelessWidget {
                   ],
                 ),
               ),
-              Obx(() => isLogin.value ? LoginForm() : SignupForm())
+              Obx(() => isLogin.value ? const LoginForm() : const SignupForm())
             ],
           ))
         ],

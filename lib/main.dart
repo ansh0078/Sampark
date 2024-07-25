@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hello/Config/pagePath.dart';
 import 'package:hello/Config/theme.dart';
@@ -21,13 +22,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      builder: FToastBuilder(),
       debugShowCheckedModeBanner: false,
       title: 'Hello',
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.dark,
       getPages: pagePath,
-      home: SplacePage(),
+      home:const SplacePage(),
     );
   }
 }

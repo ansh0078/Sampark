@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hello/Config/images.dart';
 import 'package:hello/Config/string.dart';
 import 'package:hello/Controller/ContactController.dart';
+import 'package:hello/Controller/GroupController.dart';
 // import 'package:hello/Controller/ImagePicker.dart';
 import 'package:hello/Controller/ProfileCntroller.dart';
 import 'package:hello/Pages/Group/GroupPage.dart';
@@ -24,6 +25,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     ProfileController profileController = Get.put(ProfileController());
     // ImagePickerController imagePickerController = Get.put(ImagePickerController());
     ContactController contactController = Get.put(ContactController());
+    GroupController groupController = Get.put(GroupController());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,

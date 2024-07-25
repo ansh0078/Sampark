@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,7 +9,14 @@ class ChatBubble extends StatelessWidget {
   final String time;
   final String status;
   final String imageUrl;
-  const ChatBubble({super.key, required this.message, required this.isComing, required this.time, required this.status, required this.imageUrl});
+  const ChatBubble({
+    super.key,
+    required this.message,
+    required this.isComing,
+    required this.time,
+    required this.status,
+    required this.imageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {

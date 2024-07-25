@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:hello/Config/CustomMessage.dart';
 import 'package:hello/Controller/ProfileCntroller.dart';
 import 'package:hello/Model/GroupModel.dart';
 import 'package:hello/Model/UserModel.dart';
@@ -13,6 +14,7 @@ class GroupController extends GetxController {
   final db = FirebaseFirestore.instance;
   var uuid = Uuid();
   RxBool isLoading = false.obs;
+
   ProfileController profileController = Get.put(ProfileController());
   RxList<GroupModel> groupList = <GroupModel>[].obs;
 
@@ -47,7 +49,8 @@ class GroupController extends GetxController {
           "timeStamp": DateTime.now().toString(),
         },
       );
-      Get.snackbar("Group Created", "Group Created SuccessFully");
+      getGroups();
+      successMessage("Group Created");
       Get.offAll(HomePage());
       isLoading.value = false;
     } catch (e) {
@@ -59,14 +62,14 @@ class GroupController extends GetxController {
     isLoading.value = true;
     List<GroupModel> tempGroup = [];
     await db.collection('groups').get().then(
-          (value) => {
-            tempGroup = value.docs
-                .map(
-                  (e) => GroupModel.fromJson(e.data()),
-                )
-                .toList()
-          },
-        );
+      (value) {
+        tempGroup = value.docs
+            .map(
+              (e) => GroupModel.fromJson(e.data()),
+            )
+            .toList();
+      },
+    );
     groupList.clear();
     groupList.value = tempGroup
         .where(

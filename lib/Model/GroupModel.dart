@@ -2,7 +2,7 @@ import 'package:hello/Model/UserModel.dart';
 
 class GroupModel {
   String? id;
-  String? nmae;
+  String? name;
   String? description;
   String? profileUrl;
   List<UserModel>? members;
@@ -17,7 +17,7 @@ class GroupModel {
 
   GroupModel({
     this.id,
-    this.nmae,
+    this.name,
     this.description,
     this.profileUrl,
     this.members,
@@ -36,7 +36,7 @@ class GroupModel {
       id = json["id"];
     }
     if (json["nmae"] is String) {
-      nmae = json["nmae"];
+      name = json["name"];
     }
     if (json["description"] is String) {
       description = json["description"];
@@ -44,16 +44,16 @@ class GroupModel {
     if (json["profileUrl"] is String) {
       profileUrl = json["profileUrl"];
     }
-    // if (json["members"] is Map) {
-    //   json["members"] == null ? null : UserModel.fromJson(json["members"]);
-    // }
-    if (json["members"] != null) {
-      members = List<UserModel>.from(
-        json["members"].map((memberJson) => UserModel.fromJson(memberJson)),
-      );
-    } else {
-      members = [];
+    if (json["members"] is Map) {
+      json["members"] == null ? null : UserModel.fromJson(json["members"]);
     }
+    // if (json["members"] != null) {
+    //   members = List<UserModel>.from(
+    //     json["members"].map((memberJson) => UserModel.fromJson(memberJson)),
+    //   );
+    // } else {
+    //   members = [];
+    // }
     if (json["cretedAt"] is String) {
       cretedAt = json["cretedAt"];
     }
@@ -83,7 +83,7 @@ class GroupModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> _data = <String, dynamic>{};
     _data["id"] = id;
-    _data["nmae"] = nmae;
+    _data["name"] = name;
     _data["description"] = description;
     _data["profileUrl"] = profileUrl;
     if (members != null) {

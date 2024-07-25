@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hello/Controller/AuthController.dart';
@@ -35,7 +36,7 @@ class SignupForm extends StatelessWidget {
         ),
         const SizedBox(height: 60),
         Obx(() => authController.isLoading.value
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

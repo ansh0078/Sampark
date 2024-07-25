@@ -86,7 +86,7 @@ class GroupTitle extends StatelessWidget {
                         onChanged: (Value) {
                           groupName.value = Value;
                         },
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: "Group Name",
                           prefixIcon: Icon(Icons.group),
                         ),
