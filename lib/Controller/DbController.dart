@@ -6,9 +6,7 @@ import 'package:hello/Model/UserModel.dart';
 class DbController extends GetxController {
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
-
   RxBool isLoading = false.obs;
-
   RxList<UserModel> userList = <UserModel>[].obs;
 
   void onInit() async {
@@ -21,12 +19,26 @@ class DbController extends GetxController {
     try {
       await db.collection("users").get().then(
             (value) => {
-              userList.value = value.docs.map((e) => UserModel.fromJson(e.data())).toList(),
+              userList.value = value.docs
+                  .map(
+                    (e) => UserModel.fromJson(e.data()),
+                  )
+                  .toList(),
             },
           );
-    } catch (e) {
-      print(e);
+    } catch (ex) {
+      print(ex);
     }
     isLoading.value = false;
+  }
+
+  Stream<List<UserModel>> get userStream {
+    return db.collection("users").snapshots().map(
+          (event) => event.docs
+              .map(
+                (e) => UserModel.fromJson(e.data()),
+              )
+              .toList(),
+        );
   }
 }

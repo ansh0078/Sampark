@@ -21,14 +21,14 @@ class ContactPage extends StatelessWidget {
     ProfileController profileController = Get.put(ProfileController());
     return Scaffold(
       appBar: AppBar(
-        title: Text("Select Contact"),
+        title: const Text("Select Contact"),
         actions: [
           Obx(
             () => IconButton(
               onPressed: () {
                 isSearchEnable.value = !isSearchEnable.value;
               },
-              icon: isSearchEnable.value ? Icon(Icons.close) : Icon(Icons.search),
+              icon: isSearchEnable.value ? const Icon(Icons.close) : const Icon(Icons.search),
             ),
           ),
         ],
@@ -38,7 +38,7 @@ class ContactPage extends StatelessWidget {
         child: ListView(
           children: [
             Obx(
-              () => isSearchEnable.value ? ContactSearch() : SizedBox(),
+              () => isSearchEnable.value ? const ContactSearch() : const SizedBox(),
             ),
             const SizedBox(height: 10),
             NewContactTile(
@@ -51,7 +51,7 @@ class ContactPage extends StatelessWidget {
               btnName: "New Group",
               icon: Icons.person_add,
               ontap: () {
-                Get.to(NewGroup());
+                Get.to(const NewGroup());
               },
             ),
             const SizedBox(height: 20),

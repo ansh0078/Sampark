@@ -8,6 +8,8 @@ class AuthController extends GetxController {
   final db = FirebaseFirestore.instance;
   RxBool isLoading = false.obs;
 
+  // For Login
+
   Future<void> login(String email, String password) async {
     isLoading.value = true;
     try {
@@ -15,10 +17,10 @@ class AuthController extends GetxController {
         email: email,
         password: password,
       );
-       Get.offAllNamed("/homepage");
+      Get.offAllNamed("/homePage");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for the email.');
+        print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
       }
@@ -28,7 +30,7 @@ class AuthController extends GetxController {
     isLoading.value = false;
   }
 
-  Future<void> ceateUser(String email, String password, String name) async {
+  Future<void> createUser(String email, String password, String name) async {
     isLoading.value = true;
     try {
       await auth.createUserWithEmailAndPassword(
@@ -36,13 +38,13 @@ class AuthController extends GetxController {
         password: password,
       );
       await initUser(email, name);
-      print("Account Created ❤️❤️");
-      Get.offAllNamed("/homepage");
+      print("Account Created 🔥🔥");
+      Get.offAllNamed("/homePage");
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'Weak-password') {
-        print('The password provided is too week.');
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for tha email.');
+        print('The account already exists for that email.');
       }
     } catch (e) {
       print(e);
@@ -61,12 +63,23 @@ class AuthController extends GetxController {
       name: name,
       id: auth.currentUser!.uid,
     );
+
     try {
       await db.collection("users").doc(auth.currentUser!.uid).set(
             newUser.toJson(),
           );
-    } catch (e) {
-      print(e);
+    } catch (ex) {
+      print(ex);
+    }
+  }
+
+  Future<void> resetPassword(String email) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      Get.snackbar("Email sent", "Check your email now");
+    } catch (ex) {
+      print(ex);
+      Get.snackbar("Error", ex.toString());
     }
   }
 }

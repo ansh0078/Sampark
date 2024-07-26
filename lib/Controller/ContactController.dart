@@ -14,7 +14,6 @@ class ContactController extends GetxController {
   void onInit() async {
     super.onInit();
     await getUserList();
-    await getChatRoomList();
   }
 
   Future<void> getUserList() async {
@@ -36,39 +35,21 @@ class ContactController extends GetxController {
     isLoading.value = false;
   }
 
-  Future<void> getChatRoomList() async {
-    List<ChatRoomModel> tempChatRoom = [];
-    await db.collection('chats').orderBy("timestamp", descending: true).get().then(
-      (value) {
-        tempChatRoom = value.docs
-            .map(
-              (e) => ChatRoomModel.fromJson(e.data()),
-            )
-            .toList();
-      },
-    );
-    chatRoomList.value = tempChatRoom
-        .where(
-          (e) => e.id!.contains(
-            auth.currentUser!.uid,
-          ),
-        )
-        .toList();
-
-    print(chatRoomList);
+  Stream<List<ChatRoomModel>> getChatRoom() {
+    return db.collection('chats').orderBy("timestamp", descending: true).snapshots().map((snapshot) => snapshot.docs.map((doc) => ChatRoomModel.fromJson(doc.data())).where((chatRoom) => chatRoom.id!.contains(auth.currentUser!.uid)).toList());
   }
 
   Future<void> saveContact(UserModel user) async {
     try {
       await db.collection("users").doc(auth.currentUser!.uid).collection("contacts").doc(user.id).set(user.toJson());
-    } catch (e) {
+    } catch (ex) {
       if (kDebugMode) {
-        print("Error while saving conatct" + e.toString());
+        print("Error while saving Contact" + ex.toString());
       }
     }
   }
 
-  Stream<List<UserModel>> getContact() {
+  Stream<List<UserModel>> getContacts() {
     return db.collection("users").doc(auth.currentUser!.uid).collection("contacts").snapshots().map(
           (snapshot) => snapshot.docs
               .map(

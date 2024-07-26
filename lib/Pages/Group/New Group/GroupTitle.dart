@@ -14,18 +14,19 @@ class GroupTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     GroupController groupController = Get.put(GroupController());
     ImagePickerController imagePickerController = Get.put(ImagePickerController());
-    RxString groupName = "".obs;
     RxString imagePath = "".obs;
+    RxString groupName = "".obs;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("New Group"),
+        title: Text('New Group'),
       ),
       floatingActionButton: Obx(
         () => FloatingActionButton(
           backgroundColor: groupName.isEmpty ? Colors.grey : Theme.of(context).colorScheme.primary,
           onPressed: () {
             if (groupName.isEmpty) {
-              Get.snackbar("Error", "please enter group name");
+              Get.snackbar("Error", "Please enter group name");
             } else {
               groupController.createGroup(groupName.value, imagePath.value);
             }
@@ -42,9 +43,9 @@ class GroupTitle extends StatelessWidget {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primaryContainer,
               borderRadius: BorderRadius.circular(10),
@@ -57,7 +58,7 @@ class GroupTitle extends StatelessWidget {
                       Obx(
                         () => InkWell(
                           onTap: () async {
-                            imagePath.value = await imagePickerController.pickImage((ImageSource.gallery));
+                            imagePath.value = await imagePickerController.pickImage(ImageSource.gallery);
                           },
                           child: Container(
                             width: 150,
@@ -81,40 +82,35 @@ class GroupTitle extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20),
                       TextFormField(
-                        onChanged: (Value) {
-                          groupName.value = Value;
+                        onChanged: (value) {
+                          groupName.value = value;
                         },
                         decoration: const InputDecoration(
                           hintText: "Group Name",
                           prefixIcon: Icon(Icons.group),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                     ],
                   ),
                 )
               ],
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: groupController.groupMembers
                     .map(
-                      (e) => ChatTile(
-                        imageUrl: e.profileImage ?? AssetsIamge.defaultProfileUrl,
-                        name: e.name!,
-                        lastChat: e.about ?? '',
-                        lastTime: "",
-                      ),
+                      (e) => ChatTile(imageUrl: e.profileImage ?? AssetsIamge.defaultProfileUrl, name: e.name!, lastChat: e.about ?? '', lastTime: ""),
                     )
                     .toList(),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

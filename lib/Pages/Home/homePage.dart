@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import 'package:hello/Config/images.dart';
 import 'package:hello/Config/string.dart';
 import 'package:hello/Controller/ContactController.dart';
-import 'package:hello/Controller/GroupController.dart';
-// import 'package:hello/Controller/ImagePicker.dart';
+import 'package:hello/Controller/ImagePicker.dart';
 import 'package:hello/Controller/ProfileCntroller.dart';
 import 'package:hello/Pages/Group/GroupPage.dart';
 import 'package:hello/Pages/Home/Widgets/chatList.dart';
 import 'package:hello/Pages/Home/Widgets/tabBar.dart';
+import 'package:hello/Pages/ProfilePage/ProfilePage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,9 +23,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     TabController tabController = TabController(length: 3, vsync: this);
     ProfileController profileController = Get.put(ProfileController());
-    // ImagePickerController imagePickerController = Get.put(ImagePickerController());
     ContactController contactController = Get.put(ContactController());
-    GroupController groupController = Get.put(GroupController());
+    ImagePickerController imagePickerController = Get.put(ImagePickerController());
+    // StatusController statusController = Get.put(StatusController());
+    // CallController callController = Get.put(CallController());
+    // AppController appController = Get.put(AppController());
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
@@ -37,22 +40,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           padding: const EdgeInsets.all(8.0),
           child: SvgPicture.asset(
             AssetsIamge.appIconSVG,
-            color: Theme.of(context).colorScheme.onBackground,
           ),
         ),
         actions: [
           IconButton(
             onPressed: () {
-              contactController.getChatRoomList();
+              // appController.checkLatestVersion();
             },
-            icon: Icon(Icons.search),
+            icon: Icon(
+              Icons.search,
+            ),
           ),
           IconButton(
             onPressed: () async {
-              await profileController.getUserDetails();
-              Get.toNamed("/profilePage");
+              Get.to(ProfilePage());
             },
-            icon: Icon(Icons.more_vert),
+            icon: Icon(
+              Icons.more_vert,
+            ),
           )
         ],
         bottom: myTabBar(tabController, context),
@@ -68,7 +73,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10),
         child: TabBarView(
           controller: tabController,
           children: [

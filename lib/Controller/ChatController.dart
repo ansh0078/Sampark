@@ -1,13 +1,17 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:hello/Controller/ContactController.dart';
 import 'package:hello/Controller/ProfileCntroller.dart';
-import 'package:hello/Model/ChatModel.dart';
+import 'package:hello/Model/AudioCall.dart';
 import 'package:hello/Model/ChatRoomModel.dart';
 import 'package:hello/Model/UserModel.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
+
+import '../Model/ChatModel.dart';
 
 class ChatController extends GetxController {
   final auth = FirebaseAuth.instance;
@@ -15,9 +19,9 @@ class ChatController extends GetxController {
   RxBool isLoading = false.obs;
   var uuid = Uuid();
   RxString selectedImagePath = "".obs;
+  @override
   ProfileController profileController = Get.put(ProfileController());
   ContactController contactController = Get.put(ContactController());
-
   String getRoomId(String targetUserId) {
     String currentUserId = auth.currentUser!.uid;
     if (currentUserId[0].codeUnitAt(0) > targetUserId[0].codeUnitAt(0)) {
@@ -57,19 +61,19 @@ class ChatController extends GetxController {
     UserModel sender = getSender(profileController.currentUser.value, targetUser);
     UserModel receiver = getReciver(profileController.currentUser.value, targetUser);
 
-    RxString imagUrl = "".obs;
+    RxString imageUrl = "".obs;
     if (selectedImagePath.value.isNotEmpty) {
-      imagUrl.value = await profileController.uploadFileToFirebase(selectedImagePath.value);
+      imageUrl.value = await profileController.uploadFileToFirebase(selectedImagePath.value);
     }
-
     var newChat = ChatModel(
       id: chatId,
       message: message,
-      imageUrl: imagUrl.value,
+      imageUrl: imageUrl.value,
       senderId: auth.currentUser!.uid,
       receiverId: targetUserId,
       senderName: profileController.currentUser.value.name,
       timestamp: DateTime.now().toString(),
+      readStatus: "unread",
     );
 
     var roomDetails = ChatRoomModel(
@@ -107,5 +111,40 @@ class ChatController extends GetxController {
         );
   }
 
-  
+  Stream<UserModel> getStatus(String uid) {
+    return db.collection('users').doc(uid).snapshots().map(
+      (event) {
+        return UserModel.fromJson(event.data()!);
+      },
+    );
+  }
+
+  Stream<List<CallModel>> getCalls() {
+    return db.collection("users").doc(auth.currentUser!.uid).collection("calls").orderBy("timestamp", descending: true).snapshots().map(
+          (snapshot) => snapshot.docs
+              .map(
+                (doc) => CallModel.fromJson(doc.data()),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<int> getUnreadMessageCount(
+    String roomId,
+  ) {
+    return db.collection("chats").doc(roomId).collection("messages").where("readStatus", isEqualTo: "unread").where("senderId", isNotEqualTo: profileController.currentUser.value.id).snapshots().map((snapshot) => snapshot.docs.length);
+  }
+
+  Future<void> markMessagesAsRead(String roomId) async {
+    QuerySnapshot<Map<String, dynamic>> messagesSnapshot = await db.collection("chats").doc(roomId).collection("messages").where("readStatus", isEqualTo: "unread").get();
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> messageDoc in messagesSnapshot.docs) {
+      String senderId = messageDoc.data()["senderId"];
+      if (senderId != profileController.currentUser.value.id) {
+        await db.collection("chats").doc(roomId).collection("messages").doc(messageDoc.id).update({
+          "readStatus": "read"
+        });
+      }
+    }
+  }
 }

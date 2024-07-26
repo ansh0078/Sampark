@@ -29,7 +29,29 @@ wraningMessage(String message) {
     toastLength: Toast.LENGTH_SHORT,
     gravity: ToastGravity.CENTER,
     timeInSecForIosWeb: 1,
-    backgroundColor: Colors.red,
+    backgroundColor: Colors.orange,
+    textColor: Colors.white,
+    fontSize: 16.0,
+  );
+}
+infoMessage(String message) {
+  return Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.CENTER,
+    timeInSecForIosWeb: 1,
+    backgroundColor: Colors.blue,
+    textColor: Colors.white,
+    fontSize: 16.0,
+  );
+}
+customMessage(String message) {
+  return Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.CENTER,
+    timeInSecForIosWeb: 1,
+    backgroundColor: Colors.yellow,
     textColor: Colors.white,
     fontSize: 16.0,
   );

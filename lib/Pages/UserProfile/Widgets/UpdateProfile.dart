@@ -20,8 +20,7 @@ class UserUpdateProfile extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer),
+              decoration: BoxDecoration(color: Theme.of(context).colorScheme.primaryContainer),
               child: Row(
                 children: [
                   Expanded(
@@ -55,7 +54,7 @@ class UserUpdateProfile extends StatelessWidget {
                         children: [
                           Obx(
                             () => Text(
-                              profileController.currentUser.value.name! == null ? "user" : profileController.currentUser.value.name! ,
+                              profileController.currentUser.value.name! == null ? "user" : profileController.currentUser.value.name!,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           )
@@ -85,9 +84,7 @@ class UserUpdateProfile extends StatelessWidget {
                       TextField(
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.alternate_email_rounded),
-                            hintText: "Enter Your Email"),
+                        decoration: InputDecoration(prefixIcon: Icon(Icons.alternate_email_rounded), hintText: "Enter Your Email"),
                       ),
                       SizedBox(height: 20),
                       Row(
@@ -111,8 +108,7 @@ class UserUpdateProfile extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          PrimaryBtn(
-                              btnName: "Save", icon: Icons.save, ontap: () {}),
+                          PrimaryBtn(btnName: "Save", icon: Icons.save, ontap: () {}),
                         ],
                       )
                     ],
