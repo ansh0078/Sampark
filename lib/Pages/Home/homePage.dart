@@ -6,6 +6,8 @@ import 'package:hello/Config/string.dart';
 import 'package:hello/Controller/ContactController.dart';
 import 'package:hello/Controller/ImagePicker.dart';
 import 'package:hello/Controller/ProfileCntroller.dart';
+import 'package:hello/Controller/StatusController.dart';
+import 'package:hello/Pages/CallHistory/CallHistory.dart';
 import 'package:hello/Pages/Group/GroupPage.dart';
 import 'package:hello/Pages/Home/Widgets/chatList.dart';
 import 'package:hello/Pages/Home/Widgets/tabBar.dart';
@@ -25,7 +27,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     ProfileController profileController = Get.put(ProfileController());
     ContactController contactController = Get.put(ContactController());
     ImagePickerController imagePickerController = Get.put(ImagePickerController());
-    // StatusController statusController = Get.put(StatusController());
+    StatusController statusController = Get.put(StatusController());
     // CallController callController = Get.put(CallController());
     // AppController appController = Get.put(AppController());
 
@@ -79,13 +81,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           children: [
             ChatList(),
             GroupPage(),
-            ListView(
-              children: [
-                ListTile(
-                  title: Text("Name Ansh"),
-                )
-              ],
-            )
+            CallHistory(),
           ],
         ),
       ),

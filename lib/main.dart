@@ -4,9 +4,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hello/Config/pagePath.dart';
 import 'package:hello/Config/theme.dart';
+import 'package:hello/Controller/CallController.dart';
 import 'package:hello/Pages/SplacePage/splacepage.dart';
 import 'package:hello/firebase_options.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CallController callController = Get.put(CallController());
     return GetMaterialApp(
       builder: FToastBuilder(),
       debugShowCheckedModeBanner: false,
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       darkTheme: darkTheme,
       themeMode: ThemeMode.dark,
       getPages: pagePath,
-      home:const SplacePage(),
+      home: const SplacePage(),
     );
   }
 }

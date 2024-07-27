@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:hello/Pages/Auth/authPage.dart';
-import 'package:hello/Pages/Chat/chatPage.dart';
 import 'package:hello/Pages/ContactPage/ContactPage.dart';
 import 'package:hello/Pages/Home/homePage.dart';
 import 'package:hello/Pages/ProfilePage/ProfilePage.dart';
