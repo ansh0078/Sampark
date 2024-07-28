@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:hello/Controller/CallController.dart';
 import 'package:hello/Model/UserModel.dart';
 
 class AuthController extends GetxController {
@@ -17,7 +18,8 @@ class AuthController extends GetxController {
         email: email,
         password: password,
       );
-      Get.offAllNamed("/homePage");
+      Get.offAllNamed("/homepage");
+      CallController callController = Get.put(CallController());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -39,7 +41,7 @@ class AuthController extends GetxController {
       );
       await initUser(email, name);
       print("Account Created 🔥🔥");
-      Get.offAllNamed("/homePage");
+      Get.offAllNamed("/homepage");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');

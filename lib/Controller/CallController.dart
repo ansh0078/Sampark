@@ -158,7 +158,7 @@ class CallController extends GetxController {
           endCall(callData);
           Get.back();
         },
-        child: Text("End Call"),
+        child: const Text("End Call"),
       ),
     );
   }

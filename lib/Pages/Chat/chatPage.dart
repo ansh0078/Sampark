@@ -15,6 +15,7 @@ import 'package:hello/Pages/Chat/Widgets/chatBuddle.dart';
 import 'package:hello/Pages/UserProfile/UserProfilePage.dart';
 import 'package:intl/intl.dart';
 
+
 class ChatPage extends StatelessWidget {
   final UserModel userModel;
   const ChatPage({super.key, required this.userModel});
@@ -22,6 +23,7 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ChatController chatController = Get.put(ChatController());
+    TextEditingController messageController = TextEditingController();
     ProfileController profileController = Get.put(ProfileController());
     CallController callController = Get.put(CallController());
     return Scaffold(
@@ -40,10 +42,11 @@ class ChatPage extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: CachedNetworkImage(
-                  imageUrl: userModel.profileImage ?? AssetsIamge.defaultProfileUrl,
+                  imageUrl:
+                      userModel.profileImage ?? AssetsIamge.defaultProfileUrl,
                   fit: BoxFit.cover,
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),
@@ -62,21 +65,21 @@ class ChatPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    userModel.name ?? "User",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
+                  Text(userModel.name ?? "User",
+                      style: Theme.of(context).textTheme.bodyLarge),
                   StreamBuilder(
                     stream: chatController.getStatus(userModel.id!),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Text(".....");
+                        return const Text("........");
                       } else {
                         return Text(
                           snapshot.data!.status ?? "",
                           style: TextStyle(
                             fontSize: 12,
-                            color: snapshot.data!.status == "Online" ? Colors.green : Colors.grey,
+                            color: snapshot.data!.status == "Online"
+                                ? Colors.green
+                                : Colors.grey,
                           ),
                         );
                       }
@@ -91,21 +94,27 @@ class ChatPage extends StatelessWidget {
           IconButton(
             onPressed: () {
               Get.to(AudioCallPage(target: userModel));
-              callController.callAction(userModel, profileController.currentUser.value, "audio");
+              callController.callAction(
+                  userModel, profileController.currentUser.value, "audio");
             },
-            icon: Icon(Icons.phone),
+            icon: Icon(
+              Icons.phone,
+            ),
           ),
           IconButton(
             onPressed: () {
               Get.to(VideoCallPage(target: userModel));
-              callController.callAction(userModel, profileController.currentUser.value, "video");
+              callController.callAction(
+                  userModel, profileController.currentUser.value, "video");
             },
-            icon: Icon(Icons.video_call),
-          ),
+            icon: Icon(
+              Icons.video_call,
+            ),
+          )
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.only(bottom: 10, top: 10, left: 10, right: 10),
         child: Column(
           children: [
             Expanded(
@@ -114,6 +123,8 @@ class ChatPage extends StatelessWidget {
                   StreamBuilder(
                     stream: chatController.getMessages(userModel.id!),
                     builder: (context, snapshot) {
+                      var roomid = chatController.getRoomId(userModel.id!);
+                      chatController.markMessagesAsRead(roomid!);
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
                           child: CircularProgressIndicator(),
@@ -133,14 +144,18 @@ class ChatPage extends StatelessWidget {
                           reverse: true,
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
-                            DateTime timestamp = DateTime.parse(snapshot.data![index].timestamp!);
-                            String formattedTime = DateFormat('hh:mm a').format(timestamp);
+                            DateTime timestamp = DateTime.parse(
+                                snapshot.data![index].timestamp!);
+                            String formattedTime =
+                                DateFormat('hh:mm a').format(timestamp);
+
                             return ChatBubble(
                               message: snapshot.data![index].message!,
-                              isComing: snapshot.data![index].receiverId == profileController.currentUser.value.id,
-                              time: formattedTime,
-                              status: "read",
                               imageUrl: snapshot.data![index].imageUrl ?? "",
+                              isComing: snapshot.data![index].receiverId ==
+                                  profileController.currentUser.value.id,
+                              status: snapshot.data![index].readStatus!,
+                              time: formattedTime,
                             );
                           },
                         );
@@ -157,26 +172,31 @@ class ChatPage extends StatelessWidget {
                               children: [
                                 Container(
                                   margin: const EdgeInsets.only(bottom: 10),
-                                  height: 500,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: FileImage(
-                                        File(chatController.selectedImagePath.value),
+                                        File(chatController
+                                            .selectedImagePath.value),
                                       ),
                                       fit: BoxFit.contain,
                                     ),
-                                    color: Theme.of(context).colorScheme.primaryContainer,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
                                     borderRadius: BorderRadius.circular(15),
                                   ),
+                                  height: 500,
                                 ),
                                 Positioned(
-                                    right: 0,
-                                    child: IconButton(
-                                      onPressed: () {
-                                        chatController.selectedImagePath.value = "";
-                                      },
-                                      icon: Icon(Icons.close),
-                                    )),
+                                  right: 0,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      chatController.selectedImagePath.value =
+                                          "";
+                                    },
+                                    icon: const Icon(Icons.close),
+                                  ),
+                                ),
                               ],
                             ),
                           )
@@ -185,7 +205,9 @@ class ChatPage extends StatelessWidget {
                 ],
               ),
             ),
-            TypeMessage(userModel: userModel),
+            TypeMessage(
+              userModel: userModel,
+            ),
           ],
         ),
       ),

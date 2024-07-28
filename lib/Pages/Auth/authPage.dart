@@ -10,14 +10,14 @@ class AuthPage extends StatelessWidget {
     return const Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(20),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                WelcomeHeading(), 
-                SizedBox(height: 20), 
-                AuthPageBody()
-                ],
+                WelcomeHeading(),
+                SizedBox(height: 60),
+                AuthPageBody(),
+              ],
             ),
           ),
         ),

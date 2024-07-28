@@ -3,6 +3,7 @@ import 'package:hello/Pages/Auth/authPage.dart';
 import 'package:hello/Pages/ContactPage/ContactPage.dart';
 import 'package:hello/Pages/Home/homePage.dart';
 import 'package:hello/Pages/ProfilePage/ProfilePage.dart';
+import 'package:hello/Pages/Welcome/welcomepage.dart';
 // import 'package:hello/Pages/UserProfile/UserProfilePage.dart';
 // import 'package:hello/Pages/UserProfile/Widgets/UpdateProfile.dart';
 
@@ -17,11 +18,11 @@ var pagePath = [
     page: () => HomePage(),
     transition: Transition.rightToLeft,
   ),
-  // GetPage(
-  //   name: "/chatpage",
-  //   page: () => ChatPage(),
-  //   transition: Transition.rightToLeft,
-  // ),
+  GetPage(
+    name: "/welcomePage",
+    page: () => WelcomePage(),
+    transition: Transition.rightToLeft,
+  ),
   // GetPage(
   //   name: "/profilepage",
   //   page: () => UserProfilePage(),

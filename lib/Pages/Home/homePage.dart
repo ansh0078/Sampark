@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:hello/Config/images.dart';
 import 'package:hello/Config/string.dart';
+import 'package:hello/Controller/CallController.dart';
 import 'package:hello/Controller/ContactController.dart';
 import 'package:hello/Controller/ImagePicker.dart';
 import 'package:hello/Controller/ProfileCntroller.dart';
@@ -26,9 +27,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     TabController tabController = TabController(length: 3, vsync: this);
     ProfileController profileController = Get.put(ProfileController());
     ContactController contactController = Get.put(ContactController());
-    ImagePickerController imagePickerController = Get.put(ImagePickerController());
+    ImagePickerController imagePickerController =
+        Get.put(ImagePickerController());
     StatusController statusController = Get.put(StatusController());
-    // CallController callController = Get.put(CallController());
     // AppController appController = Get.put(AppController());
 
     return Scaffold(
